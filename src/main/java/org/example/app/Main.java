@@ -1,8 +1,13 @@
-package org.example;
+package org.example.app;
+
+
 
 public class Main {
     public static void main(String[] args) {
-        ShapeFactory shapeFactory = new ShapeFactory();
+
+        System.out.println("obym zaliczył test, równiez pozdrawiam :D");
+
+
 
     }
 }

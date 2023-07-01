@@ -1,4 +1,8 @@
 package org.example.model;
 
-public interface IShape {
+public interface Shape {
+
+     double calculatePerimeter();
+     double calculateArea();
+     ShapeType getType();
 }

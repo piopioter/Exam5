@@ -1,10 +1,17 @@
-package org.example;
+package org.example.model;
 
-public class Rectangle implements IShape{
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonPropertyOrder({"type", "width", "height"})
+public class Rectangle implements Shape {
+    private static final ShapeType shapeType = ShapeType.RECTANGLE;
     private double width;
-    private  double height;
+    private double height;
 
-    private Rectangle(double width, double height) {
+    public Rectangle() {
+    }
+
+    Rectangle(double width, double height) {
         this.width = width;
         this.height = height;
     }
@@ -22,8 +29,22 @@ public class Rectangle implements IShape{
         return 2 * width + 2 * height;
     }
 
+
     @Override
     public double calculateArea() {
         return width * height;
+    }
+
+    @Override
+    public ShapeType getType() {
+        return shapeType;
+    }
+
+    @Override
+    public String toString() {
+        return "Rectangle{" +
+                "width=" + width +
+                ", height=" + height +
+                '}';
     }
 }

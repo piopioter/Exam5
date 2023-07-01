@@ -1,52 +1,50 @@
 package org.example.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.example.exception.InvalidInputDataException;
 import org.example.model.Shape;
 import org.example.model.ShapeFactory;
 import org.example.model.ShapeType;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.junit.runner.RunWith;
+import org.mockito.*;
 import org.assertj.core.api.Assertions;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
-public class IIShapeServiceTest {
+public class ShapeServiceTest {
+
     @Mock
     ObjectMapper objectMapper;
     @InjectMocks
     ShapeService shapeService;
-
     ShapeFactory shapeFactory;
     List<Shape> shapes;
 
     @Before
-    public void init() {
+    public void init() throws InvalidInputDataException {
         MockitoAnnotations.openMocks(this);
         shapeFactory = new ShapeFactory();
         shapes = Arrays.asList(
-                shapeFactory.createSquare(10), //100  40
-                shapeFactory.createCircle(10), //314.16  62.83
-                shapeFactory.createRectangle(10, 15), //150  50
-                shapeFactory.createSquare(15), //225 60
-                shapeFactory.createCircle(15)//706,9  94,2
+                shapeFactory.createSquare(10),
+                shapeFactory.createCircle(10),
+                shapeFactory.createRectangle(10, 15),
+                shapeFactory.createSquare(15),
+                shapeFactory.createCircle(15)
         );
-
-
     }
 
     @Test
-    public void shouldGetShapeWithLargestArea() {
+    public void shouldGetShapeWithLargestArea() throws InvalidInputDataException {
         //given
         List<Shape> shapeList = shapes;
         //when
@@ -55,8 +53,8 @@ public class IIShapeServiceTest {
         assertSame(shapes.get(4), shapeWithTheLargestArea);
     }
 
-    @Test(expected = NoSuchElementException.class)
-    public void shouldThrowNoSuchElementExceptionWhenShapeListIsNull() {
+    @Test(expected = InvalidInputDataException.class)
+    public void shouldThrowInvalidInputDataExceptionWhenShapeListIsNull() throws InvalidInputDataException {
         //given
         List<Shape> shapeList = null;
         //when
@@ -65,7 +63,7 @@ public class IIShapeServiceTest {
     }
 
     @Test
-    public void shouldGetSpecifiedShapeWithLargestPerimeter() {
+    public void shouldGetSpecifiedShapeWithLargestPerimeter() throws InvalidInputDataException {
         //given
         List<Shape> shapeList = shapes;
         ShapeType shapeType = ShapeType.SQUARE;
@@ -75,17 +73,17 @@ public class IIShapeServiceTest {
         assertSame(shapes.get(3), result);
     }
 
-    @Test(expected = NoSuchElementException.class)
-    public void getThrowNoSuchElementExceptionWhenShapeListIsNull() {
+    @Test(expected = InvalidInputDataException.class)
+    public void getThrowInvalidInputDataExceptionWhenListIsNull() throws InvalidInputDataException {
         //given
         List<Shape> shapeList = null;
-        ShapeType shapeType = ShapeType.SQUARE;
+        ShapeType shapeType =  ShapeType.SQUARE;
         //when
         shapeService.findShapeWithTheLargestPerimeterOfSpecifiedType(shapeList, shapeType);
     }
 
     @Test
-    public void shouldReturnJson() throws IOException {
+    public void shouldWriteJson() throws IOException, InvalidInputDataException {
         //given
         List<Shape> shapeList = shapes;
         String path = "src/main/resources/shapes.json";
@@ -95,8 +93,8 @@ public class IIShapeServiceTest {
         Mockito.verify(objectMapper, Mockito.only()).writeValue(new File(path), shapeList);
     }
 
-    @Test(expected = NoSuchElementException.class)
-    public void shouldThrowNoSuchElementExceptionWhenListIsNull() throws IOException {
+    @Test(expected = InvalidInputDataException.class)
+    public void shouldThrowInvalidInputDataExceptionWhenListIsNull() throws IOException, InvalidInputDataException {
         //given
         List<Shape> shapeList = null;
         String path = "src/main/resources/shapes.json";
@@ -107,29 +105,47 @@ public class IIShapeServiceTest {
     }
 
     @Test
-    public void shouldThrowNoSuchElementExceptionWhenPathIsNull()  {
+    public void shouldThrowInvalidInputDataException() {
         //given
         List<Shape> shapeList = shapes;
         String path = null;
         //when
-        NoSuchElementException e =
-                assertThrows(NoSuchElementException.class, () -> shapeService.exportListOfShapesToJson(shapeList, path));
+        Exception e =
+                assertThrows(InvalidInputDataException.class, () -> shapeService.exportListOfShapesToJson(shapeList, path));
         //then
         Assertions.assertThat(e)
-                .isExactlyInstanceOf(NoSuchElementException.class)
+                .isExactlyInstanceOf(InvalidInputDataException.class)
                 .hasMessage("Ściezka do pliku jest nullem")
                 .hasNoCause();
     }
 
     @Test
-    public void shouldReturnListOfShapesFromJson(){
+    public void shouldReturnListOfShapesFromJson() throws IOException, InvalidInputDataException {
         //given
         String path = "src/main/resources/shapes.json";
+
         //when
-        List<Shape> shapeList = shapeService.importListOfShapesFromJson(path);
+        shapeService.importListOfShapesFromJson(path);
+
         //then
-        assertEquals(5,shapeList.size());
+        Mockito.verify(objectMapper, Mockito.times(1)).readValue(Mockito.eq(new File(path)),
+                Mockito.any(TypeReference.class));
+
 
     }
+    @Test
+    public void shouldThrowInvalidInputDataExceptionWhenPathIsNull() {
+        //given
+        String path = null;
+        //when
+        Exception e =
+                assertThrows(InvalidInputDataException.class , () -> shapeService.importListOfShapesFromJson(path));
+        //then
+        Assertions.assertThat(e)
+                .isExactlyInstanceOf(InvalidInputDataException.class)
+                .hasMessage("Wrong path")
+                .hasNoCause();
+    }
+
 
 }

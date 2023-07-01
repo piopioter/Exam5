@@ -1,14 +1,25 @@
-package org.example;
+package org.example.model;
 
-public class Circle implements IShape {
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonPropertyOrder({"type","radius"})
+public class Circle implements Shape {
+    private static final ShapeType shapeType = ShapeType.CIRCLE;
     private double radius;
 
-    private Circle(double radius) {
+    public Circle() {
+    }
+
+    Circle(double radius) {
         this.radius = radius;
     }
 
     public double getRadius() {
         return radius;
+    }
+
+    public void setRadius(double radius) {
+        this.radius = radius;
     }
 
     @Override
@@ -19,5 +30,17 @@ public class Circle implements IShape {
     @Override
     public double calculateArea() {
         return Math.PI * Math.pow(radius, 2);
+    }
+
+    @Override
+    public ShapeType getType() {
+        return shapeType;
+    }
+
+    @Override
+    public String toString() {
+        return "Circle{" +
+                "radius=" + radius +
+                '}';
     }
 }

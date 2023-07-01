@@ -1,5 +1,11 @@
 package org.example.model;
 
+import org.example.exception.InvalidInputDataException;
+import org.example.model.Circle;
+import org.example.model.Rectangle;
+import org.example.model.Shape;
+import org.example.model.Square;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,11 +22,12 @@ public class ShapeFactory {
         this.shapes = shapes;
     }
 
-    public Square createSquare(double side) {
+    public Square createSquare(double side) throws InvalidInputDataException {
+        if (side <= 0)
+            throw new InvalidInputDataException("Wartości musi być powyżej zera");
         for (Shape shape : shapes) {
-           // if (shape != null)
-                if (shape instanceof Square && ((Square) shape).getSide() == side)
-                    return (Square) shape;
+            if (shape instanceof Square && ((Square) shape).getSide() == side)
+                return (Square) shape;
 
         }
         Square square = new Square(side);
@@ -28,7 +35,9 @@ public class ShapeFactory {
         return square;
     }
 
-    public Rectangle createRectangle(double width, double height) {
+    public Rectangle createRectangle(double width, double height) throws InvalidInputDataException {
+        if (width <= 0 || height <= 0)
+            throw new InvalidInputDataException("Wartości musi być powyżej zera");
         for (Shape shape : shapes) {
             if (shape instanceof Rectangle && ((Rectangle) shape).getHeight() == height
                     && ((Rectangle) shape).getWidth() == width)
@@ -40,7 +49,9 @@ public class ShapeFactory {
     }
 
 
-    public Circle createCircle(double radius) {
+    public Circle createCircle(double radius) throws InvalidInputDataException {
+        if (radius <= 0)
+            throw new InvalidInputDataException("Wartości musi być powyżej zera");
         for (Shape shape : shapes) {
             if (shape instanceof Circle && ((Circle) shape).getRadius() == radius)
                 return (Circle) shape;

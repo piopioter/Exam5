@@ -1,9 +1,16 @@
-package org.example;
+package org.example.model;
 
-public  class Square implements IShape {
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonPropertyOrder({"type", "side"})
+public  class Square implements Shape{
+    private static final ShapeType shapeType = ShapeType.SQUARE;
     private double side;
 
-    private Square(double side) {
+    public Square() {
+    }
+
+    Square(double side) {
         this.side = side;
     }
 
@@ -18,6 +25,18 @@ public  class Square implements IShape {
 
     @Override
     public double calculateArea() {
-        return 2 * side;
+        return side * side;
+    }
+
+    @Override
+    public ShapeType getType() {
+        return shapeType;
+    }
+
+    @Override
+    public String toString() {
+        return "Square{" +
+                "side=" + side +
+                '}';
     }
 }

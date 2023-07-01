@@ -13,8 +13,8 @@ import org.example.model.Square;
 
 import java.io.IOException;
 
-public class Deserialize extends StdDeserializer<Shape> {
-    public Deserialize(Class<?> vc) {
+public class ShapeDeserializer extends StdDeserializer<Shape> {
+    public ShapeDeserializer(Class<?> vc) {
         super(vc);
     }
 
