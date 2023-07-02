@@ -5,22 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9ffd3e4d-3aff-4777-8988-64dd51e30b7f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/app/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/app/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/exception/InvalidInputDataException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/exception/InvalidInputDataException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/Circle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/Circle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/Rectangle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/Rectangle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/Shape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/Shape.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/ShapeFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/ShapeFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/ShapeType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/ShapeType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/Square.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/Square.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/IShapeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/IShapeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/ShapeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/ShapeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/utils/ObjectMapperHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/utils/ObjectMapperHolder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/utils/ShapeDeserializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/utils/ShapeDeserializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/model/ShapeFactoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/model/ShapeFactoryTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/org/example/service/ShapeServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/service/ShapeServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -211,6 +196,16 @@
           <url>file://$PROJECT_DIR$/src/main/java/org/example/service/ShapeService.java</url>
           <line>78</line>
           <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/org/example/service/ShapeServiceTest.java</url>
+          <line>122</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/org/example/service/ShapeServiceTest.java</url>
+          <line>125</line>
+          <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -1,5 +1,6 @@
 package org.example.service;
 
+import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -123,13 +124,18 @@ public class ShapeServiceTest {
     public void shouldReturnListOfShapesFromJson() throws IOException, InvalidInputDataException {
         //given
         String path = "src/main/resources/shapes.json";
+        List<Shape> list = shapes;
 
+        Mockito.when(objectMapper.readValue(Mockito.eq(new File(path)),Mockito.any(TypeReference.class))).thenReturn(list);
         //when
-        shapeService.importListOfShapesFromJson(path);
+        List<Shape> result = shapeService.importListOfShapesFromJson(path);
 
         //then
+        Assert.assertTrue(result.containsAll(list));
         Mockito.verify(objectMapper, Mockito.times(1)).readValue(Mockito.eq(new File(path)),
-                Mockito.any(TypeReference.class));
+               Mockito.any(TypeReference.class));
+
+
 
 
     }
