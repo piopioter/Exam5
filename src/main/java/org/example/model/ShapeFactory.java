@@ -1,5 +1,6 @@
 package org.example.model;
 
+import com.sun.jdi.ArrayReference;
 import org.example.exception.InvalidInputDataException;
 import org.example.model.Circle;
 import org.example.model.Rectangle;
@@ -7,58 +8,60 @@ import org.example.model.Shape;
 import org.example.model.Square;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class ShapeFactory {
 
-    private List<Shape> shapes;
+    private Map<String, Shape> shapes;
 
     public ShapeFactory() {
-        this.shapes = new ArrayList<>();
+        this.shapes = new HashMap<>();
     }
 
-    public void setShapes(List<Shape> shapes) {
+    public void setShapes(Map<String, Shape> shapes) {
         this.shapes = shapes;
     }
 
     public Square createSquare(double side) throws InvalidInputDataException {
         if (side <= 0)
             throw new InvalidInputDataException("Wartości musi być powyżej zera");
-        for (Shape shape : shapes) {
-            if (shape instanceof Square && ((Square) shape).getSide() == side)
-                return (Square) shape;
-
+        String key = "Square" + side;
+        if (shapes.containsKey(key))
+            return (Square) shapes.get(key);
+        else {
+            Square square = new Square(side);
+            shapes.put(key, square);
+            return square;
         }
-        Square square = new Square(side);
-        shapes.add(square);
-        return square;
     }
 
     public Rectangle createRectangle(double width, double height) throws InvalidInputDataException {
         if (width <= 0 || height <= 0)
             throw new InvalidInputDataException("Wartości musi być powyżej zera");
-        for (Shape shape : shapes) {
-            if (shape instanceof Rectangle && ((Rectangle) shape).getHeight() == height
-                    && ((Rectangle) shape).getWidth() == width)
-                return (Rectangle) shape;
+        String key = "Rectangle" + width + height;
+        if (shapes.containsKey(key))
+            return (Rectangle) shapes.get(key);
+        else {
+            Rectangle rectangle = new Rectangle(width, height);
+            shapes.put(key, rectangle);
+            return rectangle;
         }
-        Rectangle rectangle = new Rectangle(width, height);
-        shapes.add(rectangle);
-        return rectangle;
     }
-
 
     public Circle createCircle(double radius) throws InvalidInputDataException {
         if (radius <= 0)
             throw new InvalidInputDataException("Wartości musi być powyżej zera");
-        for (Shape shape : shapes) {
-            if (shape instanceof Circle && ((Circle) shape).getRadius() == radius)
-                return (Circle) shape;
+        String key = "Circle" + radius;
+        if (shapes.containsKey(key))
+            return (Circle) shapes.get(key);
+        else {
+            Circle circle = new Circle(radius);
+            shapes.put(key, circle);
+            return circle;
         }
-        Circle circle = new Circle(radius);
-        shapes.add(circle);
-        return circle;
     }
 
 }

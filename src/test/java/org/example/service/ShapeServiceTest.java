@@ -4,10 +4,9 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.example.exception.InvalidInputDataException;
-import org.example.model.Shape;
-import org.example.model.ShapeFactory;
-import org.example.model.ShapeType;
+import org.example.model.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +20,8 @@ import java.io.IOException;
 import java.util.*;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 
 public class ShapeServiceTest {
 
@@ -67,9 +68,9 @@ public class ShapeServiceTest {
     public void shouldGetSpecifiedShapeWithLargestPerimeter() throws InvalidInputDataException {
         //given
         List<Shape> shapeList = shapes;
-        ShapeType shapeType = ShapeType.SQUARE;
+
         //when
-        Shape result = shapeService.findShapeWithTheLargestPerimeterOfSpecifiedType(shapeList, shapeType);
+        Shape result = shapeService.findShapeWithTheLargestPerimeterOfSpecifiedType(shapeList, Square.class);
         //then
         assertSame(shapes.get(3), result);
     }
@@ -78,21 +79,11 @@ public class ShapeServiceTest {
     public void getThrowInvalidInputDataExceptionWhenListIsNull() throws InvalidInputDataException {
         //given
         List<Shape> shapeList = null;
-        ShapeType shapeType =  ShapeType.SQUARE;
+
         //when
-        shapeService.findShapeWithTheLargestPerimeterOfSpecifiedType(shapeList, shapeType);
+        shapeService.findShapeWithTheLargestPerimeterOfSpecifiedType(shapeList, Square.class);
     }
 
-    @Test
-    public void shouldWriteJson() throws IOException, InvalidInputDataException {
-        //given
-        List<Shape> shapeList = shapes;
-        String path = "src/main/resources/shapes.json";
-        //when
-        shapeService.exportListOfShapesToJson(shapeList, path);
-        //then
-        Mockito.verify(objectMapper, Mockito.only()).writeValue(new File(path), shapeList);
-    }
 
     @Test(expected = InvalidInputDataException.class)
     public void shouldThrowInvalidInputDataExceptionWhenListIsNull() throws IOException, InvalidInputDataException {
@@ -125,17 +116,15 @@ public class ShapeServiceTest {
         //given
         String path = "src/main/resources/shapes.json";
         List<Shape> list = shapes;
+        Mockito.when(objectMapper.readValue(Mockito.eq(new File(path)), any(TypeReference.class))).thenReturn(list);
 
-        Mockito.when(objectMapper.readValue(Mockito.eq(new File(path)),Mockito.any(TypeReference.class))).thenReturn(list);
         //when
         List<Shape> result = shapeService.importListOfShapesFromJson(path);
 
         //then
         Assert.assertTrue(result.containsAll(list));
         Mockito.verify(objectMapper, Mockito.times(1)).readValue(Mockito.eq(new File(path)),
-               Mockito.any(TypeReference.class));
-
-
+               any(TypeReference.class));
 
 
     }

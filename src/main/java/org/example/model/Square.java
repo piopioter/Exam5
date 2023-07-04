@@ -1,10 +1,13 @@
 package org.example.model;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
+import java.util.Objects;
+
+@JsonTypeName("square")
 @JsonPropertyOrder({"type", "side"})
-public  class Square implements Shape{
-    private static final ShapeType shapeType = ShapeType.SQUARE;
+public class Square extends Shape {
     private double side;
 
     public Square() {
@@ -14,9 +17,6 @@ public  class Square implements Shape{
         this.side = side;
     }
 
-    public double getSide() {
-        return side;
-    }
 
     @Override
     public double calculatePerimeter() {
@@ -29,8 +29,16 @@ public  class Square implements Shape{
     }
 
     @Override
-    public ShapeType getType() {
-        return shapeType;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Square square = (Square) o;
+        return Double.compare(square.side, side) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(side);
     }
 
     @Override

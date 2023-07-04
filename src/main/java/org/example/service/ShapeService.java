@@ -32,13 +32,12 @@ public class ShapeService implements IShapeService {
     }
 
     @Override
-    public Shape findShapeWithTheLargestPerimeterOfSpecifiedType(List<Shape> shapes, ShapeType shapeType) throws InvalidInputDataException {
+    public Shape findShapeWithTheLargestPerimeterOfSpecifiedType(List<Shape> shapes, Class<?> shapeType) throws InvalidInputDataException {
         return Optional.ofNullable(shapes)
                 .orElseGet(Collections::emptyList)
                 .stream()
                 .filter(Objects::nonNull)
-                .filter(x -> Objects.nonNull(x.getType()))
-                .filter(x -> x.getType() == shapeType)
+                .filter(x -> x.getClass() == shapeType)
                 .max(Comparator.comparingDouble(Shape::calculatePerimeter))
                 .orElseThrow(() -> new InvalidInputDataException("Niepoprawny element"));
     }
@@ -52,7 +51,8 @@ public class ShapeService implements IShapeService {
             throw new InvalidInputDataException("Ściezka do pliku jest nullem");
 
         try {
-            objectMapper.writeValue(new File(path), shapes);
+            objectMapper.writerFor(new TypeReference<List<Shape>>() {
+            }).writeValue(new File(path), shapes);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -73,7 +73,6 @@ public class ShapeService implements IShapeService {
 
         return shapes;
     }
-
 
 
 }

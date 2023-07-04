@@ -1,24 +1,19 @@
 package org.example.model;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
+import java.util.Objects;
+
+@JsonTypeName("circle")
 @JsonPropertyOrder({"type","radius"})
-public class Circle implements Shape {
-    private static final ShapeType shapeType = ShapeType.CIRCLE;
+public class Circle extends Shape {
     private double radius;
 
     public Circle() {
     }
 
     Circle(double radius) {
-        this.radius = radius;
-    }
-
-    public double getRadius() {
-        return radius;
-    }
-
-    public void setRadius(double radius) {
         this.radius = radius;
     }
 
@@ -33,8 +28,16 @@ public class Circle implements Shape {
     }
 
     @Override
-    public ShapeType getType() {
-        return shapeType;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Circle circle = (Circle) o;
+        return Double.compare(circle.radius, radius) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(radius);
     }
 
     @Override
